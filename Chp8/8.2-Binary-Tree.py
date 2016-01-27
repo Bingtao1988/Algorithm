@@ -1,26 +1,9 @@
-# Tree is an organizational relationship that is richer than the simple "before"
-# and "after" relationships between objects in sequences.
+# Binary Tree:
+# 1. Every node has at most two children.
+# 2. Each child node is labeled as being either a left child or a right child.
+# 3. A left child precedes a right child in the order of children of a node.
 
-# We define a tree T as a set of nodes storing elements such that the nodes have
-# a parent-child relationship that satisfies the following properties:
-# 1. If T is nonempty, it has a special node, called the root of T, that has no parent
-# 2. Each node v of T different from the root has a unique parent node w; every
-#    node with parent w is a child of w.
-
-# Two nodes that are children of the same parent are siblings.
-# A node v is external if v has no children.
-# A node v is internal if it has one or more children.
-
-# Ancestor
-# Descendant
-
-# edge: A pair of two nodes
-# path: A sequence of nodes such that any two consecutive nodes in the sequence
-#       form an edge.
-
-# A tree is ordered if there is a meaningful linear order among the children of
-# each node. -- Ordered Tree
-
+# proper binary tree: each node has two or zero child.
 class Tree:
     """ Abstract base class representing a tree structure. """
     class Position:
@@ -61,10 +44,32 @@ class Tree:
         return len(self) == 0
 
 
-# Depth calculation:
+class BinaryTree(Tree):
+    """Abstract base class representing a binary tree structure."""
+    def left(self, p):
+        """ Return a Position representing p's left child
+        Return None if p does not have a left child.
+        """
+        raise NotImplementedError
+    def right(self, p):
+        """ Return a Position representing p's right child
+        Return None if p does not have a right child.
+        """
+        raise NotImplementedError
+    def sibling(self, p):
+        """Return a Position representing p's sibling (or None if no Sibling)"""
+        parent = self.parent(p)
+        if parent == None:
+            return None
+        else:
+            if p == self.left(parent):
+                return self.right(parent)
+            else:
+                return self.left(parent)
 
-def depth(self, p):
-    if self.is_root(p):
-        return 0
-    else:
-        return self.depth(self.parent(p)) + 1
+    def children(self, p):
+        """ Generate an iteration of Positions representing p's children."""
+        if self.left(p) != None:
+            yield self.left(p)
+        if self.right(p) != None:
+            yield self.right(p)
